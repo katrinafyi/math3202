@@ -15,18 +15,18 @@ def iterate(basic, non_basic, c, A, b):
         B = A[:, list(basic)]
         B_inv = B**-1
         print('B matrix:')
-        print(B)
+        sp.pprint(B)
 
         # basic feasible solution
         x_B = B_inv * b
-        print('x_B vector', x_B)
+        print('x_B', x_B)
 
         # cost coefficients of variables in the basis
         c_B = sp.Matrix([c[b] for b in basic])
         print('c_B', c_B)
 
         # objective function value
-        z_B = c_B.T * x_B
+        z_B = c_B.dot(x_B)
         print('z_B', z_B)
 
         # compute dual variables
@@ -37,7 +37,7 @@ def iterate(basic, non_basic, c, A, b):
         feasible_entering_vars = []
         for j in non_basic:
             # compute reduced cost
-            c_j_prime = c[j] - (y.T * A[:,j])[0, 0]
+            c_j_prime = c[j] - y.dot(A[:,j])
 
             if c_j_prime > 0:
                 feasible_entering_vars.append((c_j_prime, j))
@@ -48,6 +48,7 @@ def iterate(basic, non_basic, c, A, b):
         print('c_j\', j_*', feasible_entering_vars)
         # entering variable with index j
         j = max(feasible_entering_vars)[1]
+        print('  entering j', j)
         p_j = A[:,j]
 
         # determine leaving variable by element-wise dividing x_B and alpha_j.
@@ -61,6 +62,7 @@ def iterate(basic, non_basic, c, A, b):
 
         # r is the index of the leaving variable
         r = min(ratios)[1]
+        print('  exiting r', r)
 
         # remove r from basis cariables.
         basic.remove(r)
