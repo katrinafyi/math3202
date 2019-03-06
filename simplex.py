@@ -77,7 +77,7 @@ def iterate(basic, non_basic, c, A, b):
 
     return iterate(basic, non_basic, c, A, b)
 
-def optimise(c: np.array, A: np.ndarray, b: np.array, num_vars) -> np.array:
+def optimise(c: list, A: list, b: list, num_vars):
     # number of decision variables
     n = num_vars
 
