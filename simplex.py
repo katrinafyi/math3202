@@ -141,8 +141,7 @@ class Simplex:
 
         return do_optimise(c, A, b, self.num_vars)
 
-
-if __name__ == "__main__":
+def rsa_example():
     (Simplex()
         .add_vars(2)
         .add_constraint([2, 1], LE, 100)
@@ -153,6 +152,21 @@ if __name__ == "__main__":
         .set_objective([3, 2])
         .optimise()
     )
+
+def farmer_jones():
+    (Simplex()
+        .add_vars(2)
+        .add_constraint([20, 50], LE, 480) # time
+        .add_constraint([4, 1], LE, 30) # eggs
+        .add_constraint([0.25, 0.2], LE, 5) # milk
+        .set_objective([4, 2])
+        .optimise()
+    )
+
+if __name__ == "__main__":
+    farmer_jones()
+
+
 
     # optimise(
     #     [3, 2, 0, 0, 0],
