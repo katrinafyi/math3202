@@ -4,78 +4,73 @@ from collections import namedtuple
 Solution = namedtuple('Solution', 'variables objective')
 
 def iterate(basic, non_basic, c, A, b):
+    while True:
+        print()
+        print('ITERATING')
 
-    print()
-    print('ITERATING')
+        print('basis', basic)
 
-    print('basis', basic)
+        # matrix of columns of A in the basis
+        print()
+        B = A[:, list(basic)]
+        B_inv = B**-1
+        print('B matrix:')
+        print(B)
 
-    # matrix of columns of A in the basis
-    print()
-    B = A[:, list(basic)]
-    B_inv = B**-1
-    print('B matrix:')
-    print(B)
+        # basic feasible solution
+        x_B = B_inv * b
+        print('x_B vector', x_B)
 
-    # basic feasible solution
-    x_B = B_inv * b
-    print('x_B vector', x_B)
+        # cost coefficients of variables in the basis
+        c_B = sp.Matrix([c[b] for b in basic])
+        print('c_B', c_B)
 
-    # cost coefficients of variables in the basis
-    c_B = sp.Matrix([c[b] for b in basic])
-    print('c_B', c_B)
+        # objective function value
+        z_B = c_B.T * x_B
+        print('z_B', z_B)
 
-    # objective function value
-    z_B = c_B.T * x_B
-    print('z_B', z_B)
+        # compute dual variables
+        y = (B_inv).T * c_B
+        print('y', y)
 
-    # compute dual variables
-    y = (B_inv).T * c_B
-    print('y', y)
+        # iterate over non-basic variables to select one to enter
+        feasible_entering_vars = []
+        for j in non_basic:
+            # compute reduced cost
+            c_j_prime = c[j] - (y.T * A[:,j])[0, 0]
 
-    # iterate over non-basic variables to select one to enter
-    feasible_entering_vars = []
-    for j in non_basic:
-        # compute reduced cost
-        c_j_prime = c[j] - (y.T * A[:,j])[0, 0]
+            if c_j_prime > 0:
+                feasible_entering_vars.append((c_j_prime, j))
 
-        if c_j_prime > 0:
-            feasible_entering_vars.append((c_j_prime, j))
+        if not feasible_entering_vars:
+            return Solution(x_B, z_B)
 
-    if not feasible_entering_vars:
-        return Solution(x_B, z_B)
+        print('c_j\', j_*', feasible_entering_vars)
+        # entering variable with index j
+        j = max(feasible_entering_vars)[1]
+        p_j = A[:,j]
 
-    print('c_j\', j_*', feasible_entering_vars)
-    # entering variable with index j
-    j = max(feasible_entering_vars)[1]
-    p_j = A[:,j]
+        # determine leaving variable by element-wise dividing x_B and alpha_j.
+        alpha_j = B_inv * p_j
+        ratios = [(x_B[k] / alpha_j[k], basic[k]) for k in range(len(x_B)) if alpha_j[k] > 0]
+        print('ratio test', ratios)
 
-    # determine leaving variable by element-wise dividing x_B and alpha_j.
-    alpha_j = B_inv * p_j
-    ratios = [(x_B[k] / alpha_j[k], basic[k]) for k in range(len(x_B)) if alpha_j[k] > 0]
-    print('ratio test', ratios)
+        if not ratios:
+            print('UNBOUNDED PROBLEM')
+            raise ValueError()
 
-    if not ratios:
-        print('UNBOUNDED PROBLEM')
-        raise ValueError()
+        # r is the index of the leaving variable
+        r = min(ratios)[1]
 
-    # r is the index of the leaving variable
-    r = min(ratios)[1]
+        # remove r from basis cariables.
+        basic.remove(r)
+        non_basic.append(r)
 
+        # add j to basic variables.
+        basic.append(j)
+        non_basic.remove(j)
 
-    # copy input lists
-    basic = list(basic)
-    non_basic = list(non_basic)
-
-    # remove r from basis cariables.
-    basic.remove(r)
-    non_basic.append(r)
-
-    # add j to basic variables.
-    basic.append(j)
-    non_basic.remove(j)
-
-    return iterate(basic, non_basic, c, A, b)
+    assert False
 
 def optimise(c: list, A: list, b: list, num_vars):
     # number of decision variables
