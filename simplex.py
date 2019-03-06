@@ -1,9 +1,12 @@
 import sympy as sp
 from collections import namedtuple
 
+from typing import List
+
 Solution = namedtuple('Solution', 'variables objective')
 
-def iterate(basic, non_basic, c, A, b):
+def iterate(basic: List[int], non_basic: List[int],
+            c: sp.Matrix, A: sp.Matrix, b: sp.Matrix) -> Solution:
     while True:
         print()
         print('ITERATING')
@@ -57,8 +60,7 @@ def iterate(basic, non_basic, c, A, b):
         print('ratio test', ratios)
 
         if not ratios:
-            print('UNBOUNDED PROBLEM')
-            raise ValueError()
+            raise ValueError('UNBOUNDED PROBLEM')
 
         # r is the index of the leaving variable
         r = min(ratios)[1]
@@ -74,7 +76,7 @@ def iterate(basic, non_basic, c, A, b):
 
     assert False
 
-def optimise(c: list, A: list, b: list, num_vars):
+def do_optimise(c: List[int], A: List[List[int]], b: List[int], num_vars: int):
     # number of decision variables
     n = num_vars
 
@@ -137,7 +139,7 @@ class Simplex:
             A.append(row)
             b.append(constr[2])
 
-        return optimise(c, A, b, self.num_vars)
+        return do_optimise(c, A, b, self.num_vars)
 
 
 if __name__ == "__main__":
