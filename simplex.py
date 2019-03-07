@@ -97,6 +97,7 @@ EQ = object()
 LE = object()
 GE = object()
 
+
 class Simplex:
     def __init__(self):
         self.num_vars = 0
@@ -119,7 +120,7 @@ class Simplex:
         self.obj_coeff = coefficients
         return self
 
-    def optimise(self):
+    def maximise(self):
         # number of columns in A = num decision variables + num slack variables
         num_cols = (self.num_vars
             + sum(1 for constr in self.constraints if constr[1] is not EQ))
@@ -150,7 +151,7 @@ def rsa_example():
         .add_constraint([1, 0], GE, 40)
         # .add_constraint([1, 2], EQ, 25)
         .set_objective([3, 2])
-        .optimise()
+        .maximise()
     )
 
 def farmer_jones():
@@ -160,7 +161,7 @@ def farmer_jones():
         .add_constraint([4, 1], LE, 30) # eggs
         .add_constraint([0.25, 0.2], LE, 5) # milk
         .set_objective([4, 2])
-        .optimise()
+        .maximise()
     )
 
 if __name__ == "__main__":
