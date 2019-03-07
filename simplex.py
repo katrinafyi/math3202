@@ -46,6 +46,7 @@ def iterate(basic: List[int], non_basic: List[int],
                 feasible_entering_vars.append((c_j_prime, j))
 
         if not feasible_entering_vars:
+            # no further optimisation possible
             return Solution(x_B, z_B)
 
         print('c_j\', j_*', feasible_entering_vars)
@@ -66,7 +67,7 @@ def iterate(basic: List[int], non_basic: List[int],
         r = min(ratios)[1]
         print('  exiting r', r)
 
-        # remove r from basis cariables.
+        # remove r from basis variables.
         basic.remove(r)
         non_basic.append(r)
 
@@ -76,7 +77,7 @@ def iterate(basic: List[int], non_basic: List[int],
 
     assert False
 
-def do_optimise(c: List[int], A: List[List[int]], b: List[int], num_vars: int):
+def do_optimise(c: sp.Matrix, A: sp.Matrix, b: sp.Matrix, num_vars: int):
     # number of decision variables
     n = num_vars
 
@@ -121,6 +122,8 @@ class Simplex:
         return self
 
     def maximise(self):
+        assert self.num_vars > 0
+
         # number of columns in A = num decision variables + num slack variables
         num_cols = (self.num_vars
             + sum(1 for constr in self.constraints if constr[1] is not EQ))
@@ -164,12 +167,16 @@ def farmer_jones():
         .maximise()
     )
 
+def tutorial_2():
+    # blending problem
+    s = Simplex()
+    s.add_vars(5)
+    s.add_constraint([1, 1, 0, 0, 0], LE, 200)
+    s.add_constraint([0, 0, 1, 1, 1], LE, 250)
+    s.add_constraint([2.8, 0.1, -4, -1.8, -1], LE, 0)
+    s.add_constraint([5.8, 3.1, -1, 1.2, 2], GE, 0)
+    s.set_objective([40, 30, 20, 40, 35])
+    s.maximise()
+
 if __name__ == "__main__":
-    farmer_jones()
-
-
-
-    # optimise(
-    #     [3, 2, 0, 0, 0],
-    #     np.array([[2, 1, 1, 0, 0], [1, 1, 0, 1, 0], [1, 0, 0, 0, 1]]),
-    #     [100, 80, 40])
+    tutorial_2()
