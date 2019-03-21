@@ -1,10 +1,5 @@
 from gurobipy import * 
 
-def filter_products(product, all_products):
-    for p in all_products:
-        if product in p:
-            yield p
-
 def portfolio_optimisation():
     # multiplier for investments in each product.
     Returns = {
@@ -21,13 +16,15 @@ def portfolio_optimisation():
     }
     Products = list(Returns.keys())
 
-    Cars = filter_products('Cars', Products)
-    Computers = filter_products('Computers', Products)
-    Appliances = filter_products('Appliances', Products)
-    Insurance = filter_products('Insurance', Products)
-    Bonds = filter_products('bonds', Products)
-    Germany = filter_products('Germany', Products)
-    USA = filter_products('USA', Products)
+    filter_products = lambda p: [prod for prod in Products if p in prod]
+
+    Cars = filter_products('Cars')
+    Computers = filter_products('Computers')
+    Appliances = filter_products('Appliances')
+    Insurance = filter_products('Insurance')
+    Bonds = filter_products('bonds')
+    Germany = filter_products('Germany')
+    USA = filter_products('USA')
 
     m = Model('Portfolio Optimisation')
     
