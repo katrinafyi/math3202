@@ -2,7 +2,7 @@ from gurobipy import *
 
 from collections import namedtuple
 
-TableSpec = namedtuple('TableSpec', 'title header format generator')
+TableSpec = namedtuple('TableSpec', 'title header format generator empty')
 
 r = lambda i: round(i, 4)
 row_generator = {
@@ -10,13 +10,16 @@ row_generator = {
         'Constraint Analysis', 
         ('constr', '', 'rhs', 'slack', 'pi', 'rhs low', 'rhs high'),
         '  {:>1} {:>5} | {:>6} {:>6} | {:>7} {:>7}', 
-        lambda n, c: (n, c.sense, r(c.rhs), r(c.slack), r(c.pi), r(c.SARHSLow), r(c.SARHSUp))
+        lambda n, c: (n, c.sense, r(c.rhs), r(c.slack), r(c.pi), r(c.SARHSLow), r(c.SARHSUp)),
+        lambda t: t[2] == 0
     ),
     'variables': TableSpec(
         'Variable Analysis', 
         ('variable', 'x', 'coeff', 'rc', 'obj low', 'obj high'),
         '  = {:>5} * {:>6} | {:>6} | {:>7} {:>7}', 
-        lambda n, c: (c.varName, r(c.x), r(c.obj), r(c.rc), r(c.SAObjLow), r(c.SAObjUp))),
+        lambda n, c: (c.varName, r(c.x), r(c.obj), r(c.rc), r(c.SAObjLow), r(c.SAObjUp)),
+        lambda t: t[1] == 0
+    )
 }
 
 def _dict_to_rows(constrs_list, generator, prefix=''):
@@ -32,7 +35,7 @@ def _dict_to_rows(constrs_list, generator, prefix=''):
         out.extend(rows)
     return out
 
-def _print_analysis(constr_dict, mode):
+def _print_analysis(constr_dict, mode, drop_empty=False):
     rows = _dict_to_rows(constr_dict, row_generator[mode].generator)
     max_lens = []
     for i in range(len(rows[0])):
@@ -50,15 +53,17 @@ def _print_analysis(constr_dict, mode):
     print(row_generator[mode].title)
     print(f_str.format(*row_generator[mode].header))
     for r in rows:
+        if drop_empty and row_generator[mode].empty(r):
+            continue
         # print(f_str)
         # print(r)
         print(f_str.format(*r))
     
-def print_constr_analysis(constrs):
-    return _print_analysis(constrs, 'constraints')
+def print_constr_analysis(constrs, drop_zero=False):
+    return _print_analysis(constrs, 'constraints', drop_zero)
 
-def print_variable_analysis(variables): 
-    return _print_analysis(variables, 'variables')
+def print_variable_analysis(variables, drop_zero=False): 
+    return _print_analysis(variables, 'variables', drop_zero)
 
 if __name__ == "__main__":
     m = Model()
