@@ -19,42 +19,7 @@ def make_tupledict(matrix, rows, cols):
         for c, item in enumerate(row):
             d[rows[r], cols[c]] = item
     return d
-
-# usage[P][M]
-usage = [
-    [0.5, 0.1, 0.2, 0.05, 0.00],
-    [0.7, 0.2, 0.0, 0.03, 0.00],
-    [0.0, 0.0, 0.8, 0.00, 0.01],
-    [0.0, 0.3, 0.0, 0.07, 0.00],
-    [0.3, 0.0, 0.0, 0.10, 0.05],
-    [0.2, 0.6, 0.0, 0.00, 0.00],
-    [0.5, 0.0, 0.6, 0.08, 0.05]
-    ]
-
-T = range(6)
-
-# maintenance[T][M]
-maint = [
-    [1, 0, 0, 0, 0],
-    [0, 0, 2, 0, 0],
-    [0, 0, 0, 1, 0],
-    [0, 1, 0, 0, 0],
-    [1, 1, 0, 0, 0],
-    [0, 0, 1, 0, 1]
-    ]
-
-# market[P][T]
-market = [
-    [ 500, 600, 300, 200,   0, 500],
-    [1000, 500, 600, 300, 100, 500],
-    [ 300, 200,   0, 400, 500, 100],
-    [ 300,   0,   0, 500, 100, 300],
-    [ 800, 400, 500, 200,1000,1100],
-    [ 200, 300, 400,   0, 300, 500],
-    [ 100, 150, 100, 100,   0,  60]
-    ]
-
-def tutorial_5(): 
+def tutorial_5():
     P = [f'P{i+1}' for i in range(7)]
     M = ['Grind', 'VDrill', 'HDrill', 'Bore', 'Plane']
     T = [1, 2, 3, 4, 5, 6]
@@ -100,9 +65,13 @@ def tutorial_5():
             return Profit[x[0]]
 
     model = Model('Factory Planning')
-    X = model.addVars(P, T, name='X', ) # produced
-    Y = model.addVars(P, T, name='Y', obj=ProfitGetter()) # sold 
-    Z = model.addVars(P, T, name='Z', obj=-0.5) # stored
+    X = model.addVars(P, T, name='X', vtype=GRB.INTEGER) # produced
+    Y = model.addVars(P, T, name='Y', obj=ProfitGetter(), vtype=GRB.INTEGER) # sold 
+    Z = model.addVars(P, T, name='Z', obj=-0.5, vtype=GRB.INTEGER) # stored
+    A = model.addVars(M, T, name='A', vtype=GRB.INTEGER) # number of machines of type m maintained in month t
+
+    model.addConstrs(A.sum(m, '*') == AvailableMachines[m] for m in M)
+
 
     for t in T:
         if t > 1:
@@ -112,7 +81,7 @@ def tutorial_5():
 
         # machine hours available in this month
         MachineHours = {
-            m: (AvailableMachines[m]-Maintenance[t,m])*HoursPerDay*DaysPerMonth 
+            m: (AvailableMachines[m]-A[m,t])*HoursPerDay*DaysPerMonth
             for m in M
         }
         # machine hours constraint
@@ -127,7 +96,7 @@ def tutorial_5():
         model.addConstrs(Z[p,t] <= StorageLimit for p in P)
 
     last = T[-1]
-    model.addConstrs(Z[p,last] >= 50 for p in P)
+    model.addConstrs(Z[p,last] >= ProductDesired for p in P)
 
 
 
@@ -142,15 +111,20 @@ def tutorial_5():
             v = X[p,t]
             print(f'{p} = {v.x},  ', end='')
         print()
-        print('Sold: ', end='')
+        print('Sold:     ', end='')
         for p in P:
             v = Y[p,t]
             print(f'{p} = {v.x},  ', end='')
         print()
-        print('Stored: ', end='')
+        print('Stored:   ', end='')
         for p in P:
             v = Z[p,t]
             print(f'{p} = {v.x},  ', end='')
+        print()
+        print('Maintenance: ', end='')
+        for m in M:
+            v = A[m,t]
+            print(f'{v.varname} = {v.x},  ', end='')
         print()
 
 
