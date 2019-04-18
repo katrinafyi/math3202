@@ -18,26 +18,22 @@ passing = {
 }
 
 @lru_cache(maxsize=2**10)
-def _solve_study(hours: int, subject_hours: FrozenSet[int]): 
-    if hours == 0:
-        failing = 1
-        for i, h in enumerate(subject_hours):
-            failing *= (1-passing[h][i])
-        return (1-failing, subject_hours)
+def _solve_study(hours: int, subject: int): 
+    if hours == 0 or subject > 2:
+        return (1, ())
     
-    max_prob = 0
-    max_subject = None
-    for i in range(3): # i = subject index
-        s = subject_hours
-        # study that subject for one hour
-        p, new_s = _solve_study(hours-1, s[:i] + (s[i]+1, ) + s[i+1:])
-        if p > max_prob:
-            max_subject = new_s
-            max_prob = p 
-    return (max_prob, max_subject)
+    min_prob = float('inf')
+    min_x = None
+    for x in range(0, hours+1): # x = hours at this subject
+        _p, _x = _solve_study(hours-x, subject+1)
+        p = (1-passing[x][subject])*_p
+        if p < min_prob:
+            min_prob = p
+            min_x = (x, ) + _x
+    return (min_prob, min_x)
 
 def studying():
-    return _solve_study(4, (0, 0, 0))
+    return _solve_study(4, 0)
 
 if __name__ == '__main__':
     print(studying())
