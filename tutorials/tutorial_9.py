@@ -62,23 +62,22 @@ def travelling_artist():
 def travelling_artist_2():
     cities = frozenset(Cities)
     
-    def solve(profit: int, current: int, visited: FrozenSet[int]):
+    @lru_cache(maxsize=2**16)
+    def solve(current: int, visited: FrozenSet[int]):
         if len(visited) == 4:
-            return (profit, ())
+            return (-distances[current][0], (0, ))
 
         running_max = 0
         running_sol = None
         for city in cities-visited:
-            x, sol = solve(
-                profit + expected[city] - distances[current][city], 
-                city, 
-                visited | {city})
+            x, sol = solve(city, visited | {city})
+            x += expected[city] - distances[current][city]
             if x > running_max:
                 running_max = x 
                 running_sol = (city, ) + sol
         return (running_max, running_sol)
 
-    print(solve(0, 0, frozenset()))
+    print(solve(0, frozenset()))
 
 cities = frozenset(Cities)
     
@@ -107,7 +106,8 @@ def solve(current: int, paintings: int, visited: FrozenSet[int]):
     
 def travelling_artist_B():
     print(solve(0, 5, frozenset()))
-    print(solve.cache_info())
+    # print(solve.cache_info())
 
 if __name__ == "__main__":
+    travelling_artist_2()
     travelling_artist_B()
