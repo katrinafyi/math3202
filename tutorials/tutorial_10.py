@@ -39,7 +39,7 @@ def V_memoized(t, i, m):
     if t >= 150:
         if m:
             return (2, 'mate') 
-        return (1, 'survived')
+        return (0, 'survived')
     
     running_max = -1
     running_action = None
@@ -50,6 +50,8 @@ def V_memoized(t, i, m):
             running_action = action
         if t >= 75:
             break # break after first action which is rest.
+    if running_max == 0:
+        return (0, 'certain death')
     return (running_max, running_action)
 
 def V_tuple(t, i, m):
@@ -68,6 +70,15 @@ def V(t, i, m):
 def bird_song():
     print(V_tuple(0, 117, 0))
     print(V_tuple(0, 118, 0))
+    print(V_memoized.cache_info())
+    
+    sing_thresholds = []
+    for t in range(0, 75):
+        for i in range(500):
+            if V_tuple(t, i, 0)[1][1] == 'sing':
+                break 
+        sing_thresholds.append(i)
+    print(sing_thresholds)
 
 if __name__ == "__main__":
     bird_song()
