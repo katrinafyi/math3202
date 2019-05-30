@@ -1,5 +1,6 @@
 from gurobipy import *
 from itertools import product
+from functools import lru_cache
 
 Ports = ['Manly','Cleveland','Dunwich']
 P = list(range(len(Ports)))
@@ -34,5 +35,29 @@ def moreton_bay():
         port = port[0]
         print('Boat', b, 'goes to', port, 'in', Travel[b][port], 'time.')
 
+def prisoners():
+    Actions = ['coop', 'def']
+    A = [0, 1] # 0 is cooperate, 1 is defect.
+    Payoff = [
+        [3, 0],
+        [5, 1]
+    ]
+
+    prob_coop = lambda t, c: min(max(0.6 + 0.1*c - 0.2*(t-c), 0), 1)
+
+    @lru_cache(maxsize=None)
+    def V(t, c):
+        if t >= 10:
+            return (0, ('end', ))
+        return max(
+            (prob_coop(t, c)*Payoff[a][0]
+            + (1-prob_coop(t, c))*Payoff[a][1]
+            + V(t+1, c+1-a)[0], 
+            (Actions[a], ) + V(t+1, c+1-a)[1])
+            for a in A
+        )
+    
+    print(V(0, 0))
+
 if __name__ == "__main__":
-    moreton_bay()
+    prisoners()
