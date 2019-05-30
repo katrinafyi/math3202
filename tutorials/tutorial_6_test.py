@@ -16,5 +16,8 @@ class TestTutorial6(unittest.TestCase):
             x = list(tutorial_6.rotate_cw(x))
         self.assertEqual(x, points)
 
+    def test_rotations(self):
+        x = tutorial_6.rotations({(-2, 1): })
+
 if __name__ == "__main__":
     unittest.main()
