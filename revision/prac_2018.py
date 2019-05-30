@@ -43,21 +43,23 @@ def prisoners():
         [5, 1]
     ]
 
-    prob_coop = lambda t, c: min(max(0.6 + 0.1*c - 0.2*(t-c), 0), 1)
+    # prob_coop = lambda t, c: min(max(0.6 + 0.1*c - 0.2*(t-c), 0), 1)
+
+    new_prob = lambda p, a: min(max(p + 0.1*(1-a) - 0.2*(a), 0), 1)
 
     @lru_cache(maxsize=None)
-    def V(t, c):
+    def V(t, p):
         if t >= 10:
             return (0, ('end', ))
         return max(
-            (prob_coop(t, c)*Payoff[a][0]
-            + (1-prob_coop(t, c))*Payoff[a][1]
-            + V(t+1, c+1-a)[0], 
-            (Actions[a], ) + V(t+1, c+1-a)[1])
+            (p*Payoff[a][0]
+            + (1-p)*Payoff[a][1]
+            + V(t+1, new_prob(p, a))[0], 
+            (Actions[a], ) + V(t+1, new_prob(p, a))[1])
             for a in A
         )
     
-    print(V(0, 0))
+    print(V(0, 0.6))
 
 if __name__ == "__main__":
     prisoners()
