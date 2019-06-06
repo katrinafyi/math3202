@@ -1,0 +1,177 @@
+\documentclass[11pt,a4paper]{article} % Default style and margins
+
+\usepackage{amsmath}
+\usepackage{bm}
+\title{Revised Simplex Algorithm}
+\author{Kenton Lam}
+
+\begin{document}
+\maketitle
+
+The revised simplex algorithm is fundamental to understanding 
+linear programming but is also extremely difficult to understand.
+I've formulated it here as plainly and logically as possible 
+to help myself and hopefully others.
+
+
+\section{Problem Definition}
+In general, a linear programming problem is defined as follows. 
+\begin{align*}
+    \text{maximise }&\bm c^\top \bm x \\ 
+    \text{such that } A\bm x &= \bm b \\ 
+    \bm x &\ge \bm 0
+\end{align*}
+Minimisation problems can be done by maximising $-\bm c^\top \bm x$.
+
+Here, $\bm x$ are the unknown variables we want to optimise for, 
+expressed as an $n$-vector. 
+$\bm c^\top \bm x$ is our (linear) \textit{objective function} and $\bm c$ 
+is an $n$-vector of \textit{objective coefficients}.
+
+$A$ is an $m\times n$ matrix of constraint coefficients, 
+corresponding to $m$ linear constraints. The $m$-vector $\bm b$ 
+contains the right hand side of these constraints.
+
+\subsection{Glossary}
+Some terms which will be used are:
+\begin{itemize}
+    \item \textit{solution} -- Any $\bm x$ vector, not to be confused with \textit{the} solution to the optimisation problem.
+    \item \textit{feasible solution} -- A solution which satisfies all the constraints in the problem (we also have \textit{infeasible solutions}).
+    \item \textit{basis} -- Non-zero components of $\bm x$ in a particular solution.
+    \item \textit{basic feasible solution (BFS)} -- Starting solution for the simplex algorithm.
+    This should be easy to calculate. 
+\end{itemize}
+
+
+\subsection{Inequality constraints}
+You may have noticed that the definition above uses 
+equality. But our model needs to handle inequality constraints, otherwise 
+it wouldn't be very useful! Suppose we have a constraint of the form 
+\begin{align*}
+    \bm a_0 \cdot \bm x &\le b_0.
+\end{align*}
+There's a clever trick we can use. We add a dummy variable, called a 
+slack variable, so the inequality is expressed as an equality. 
+Here, we use $x_0$.
+\begin{align*}
+    \bm a_0 \cdot \bm x + x_0' &= b_0
+\end{align*}
+With the constraint that $x_0' \ge 0$, this ensures the inequality is 
+maintained. 
+We add $x_0'$ to the $\bm x$ vector 
+and we add a $0$ to $\bm c$ because $x_0'$ is not in the objective function. To $A$, we add 
+a column which is zero everywhere except in row corresponding to
+this inequality. In the basic feasible solution, we can set 
+$x_0' = b_0$.
+
+Greater than inequalities are more complicated. Applying the same logic 
+as less-then constraints, we can try
+\begin{align*}
+    x_1 &\ge 40 \implies x_1-x_1' = 40.
+\end{align*}
+However, this has the problem of no BFS. We cannot blindly set $x_1=40$ 
+because this may invalid $\le$ constraints and we certainly
+can't set $x_1'$ to a negative value. The solution is to add another 
+variable, called an artificial variable, and penalise it in the objective 
+coefficient. That is, 
+\begin{align*}
+    x_1 - x_1' + x_1^* = 40
+\end{align*}
+We add $x_1^*$ to $\bm x$ and because we are maximising, 
+we add a coefficient $M \ll 0$ to $\bm z$. This will 
+ensure $x_1^*$ is zero in the optimal solution. Then, our BFS contains 
+$x_1 = x_1' = 0$ and $x_1^* = 40$.
+
+\section{The Algorithm}
+Essentially, simplex works by assuming that in any solution,
+a fixed number of the $\bm x$ variables are 0. Exactly which 
+variables are 0 can and will change. The set of variables which 
+are \textit{not} 0 are called basis variables. By moving specific 
+variables into and out of the basis, 
+the simplex method computes the optimal solution
+ to the problem.
+
+We can rewrite the optimisation problem in terms of basis
+and non-basis variables. We split $A$ into $B$ and $N$,  
+$\bm x$ into $\bm x^B$ and $\bm x^N$, and similarly for $c$. 
+`B' refers to variables in the basis and `N' those which aren't.
+\begin{align*}
+    \text{maximise }\begin{bmatrix}
+        \bm c^B \\ \bm c^N
+    \end{bmatrix}^\top \begin{bmatrix}
+        \bm x^B \\ \bm x^N
+    \end{bmatrix} &\\ 
+    \text{such that }\begin{bmatrix}
+        B\,|\,N
+    \end{bmatrix}\begin{bmatrix}
+        \bm x^B \\ \bm x^N
+    \end{bmatrix} &= \bm b
+\end{align*} 
+Again, remember that the basis variables \textit{will change} as the algorithm 
+iterates. It only makes sense to say a variable is ``in the basis'' if you 
+specify which solution you are talking about. 
+
+Recall that our BFS is $0$ for all variables in the 
+original optimisation problem and slack/artificial variables set as described above.
+We begin with the BFS as our solution. 
+\begin{enumerate}
+    \item By construction, the solution satisfies 
+    the constraint $A\bm x = \bm b$. By assumption, 
+    the non-basis variables are $0$ so 
+    \begin{align*}
+        \bm x^N = 0 &\implies B\bm x^B = \bm b \implies \bm x^B = B^{-1} \bm b.
+    \end{align*} 
+    Note that the objective value of this solution is given by $z^B = \bm c^B \cdot \bm x^B$.
+    \item Compute the \textit{dual variables} as 
+    \begin{align*}
+        \bm y &= (B^{-1})^\top \bm c^B.
+    \end{align*}
+    \item We need to choose which variable which enter the basis. 
+    For each $j$ not in the basis, let $\bm\rho_j$ denote its corresponding 
+    column in $A$. Compute the \textit{reduced cost}
+    \begin{align*}
+        c_j' &= c_j - \bm y \cdot \bm\rho_j.
+    \end{align*}
+    \begin{enumerate}
+        \item If for all $j$, $c_j' \le 0$ then the current solution is optimal. Stop.
+        \item Otherwise, choose $j^*$ such that $c_{j^*}'$ is maximised. 
+        This will be the entering variable.
+    \end{enumerate}
+    \item Now, we determine the leaving variable. Compute the \textit{direction vector}
+    of the entering variable as 
+    \begin{align*}
+        \bm \alpha = B^{-1} \bm \rho_{j^*}.
+    \end{align*}
+    \begin{enumerate}
+        \item If no component of $\bm \alpha$ is positive, the problem is unbounded. Stop.
+        \item Otherwise, choose $r$ from the current basis such that $\alpha_r > 0$ 
+        and $x^B_r / \alpha_r$ is minimised. This is the leaving variable.
+    \end{enumerate}
+    \item Recompute $B$, $\bm x^B$ and $\bm c^B$ after removing the leaving variable 
+    and adding the entering variable. Go to step 1.
+
+\end{enumerate}
+
+\section{Sensitivity Analysis}
+Once we have an optimal solution $\bm x$, its dual variables $\bm y$ can give us insights 
+into the solution. Specifically, we can calculate the effect of small 
+changes to the constraint RHS $\bm b$ and the objective coefficients $\bm c$.
+
+Let $\bm e^j$ be a vector with 1 in the $j$-th position and 0 elsewhere. 
+
+\begin{itemize}
+    \item If we perturb $\bm b$ by $\bm b + \Delta \bm e^j$ for some $\Delta > 0$, 
+    the new objective value is given by 
+    \begin{align*}
+        z^\Delta = \bm y^\top (\bm b + \Delta \bm e^j) &= \bm y^\top \bm b + \bm y^\top \Delta \bm e^j \\ 
+        &= z^B + \Delta y_j \quad \text{($\bm y^\top \bm b = z^B$ by duality)}
+    \end{align*}
+    \item Consider a perturbation $\bm c$ to $\bm c + \Delta \bm e^j$. The optimal solution's basis variables will be unchanged until
+    \begin{itemize}
+        \item for some non-basis $j$, $c_j' = c_j - \bm y^\top \bm \rho_j$ becomes positive; or
+        \item for some basis variable $j$ \textbf{UNFINISHED}
+    \end{itemize}
+\end{itemize}
+
+
+\end{document}
