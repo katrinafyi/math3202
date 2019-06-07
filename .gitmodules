@@ -1,7 +1,3 @@
-[submodule "simplex"]
-path = simplex
-url = https://github.com/KentonLam/simplex.git
-
 [submodule "assignment"]
 	path = assignment
 	url = https://github.com/KentonLam/math3202-assignments.git
