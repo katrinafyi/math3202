@@ -1,4 +1,7 @@
-\documentclass[11pt,a4paper]{article} % Default style and margins
+\documentclass[12pt,a4paper]{article} % Default style and margins
+
+% \usepackage[a4,center,noinfo,cross, width=16.5cm,height=24.5cm]{crop}
+
 
 \usepackage{amsmath}
 \usepackage{bm}
@@ -65,7 +68,7 @@ We add $x_0'$ to the $\bm x$ vector
 and we add a $0$ to $\bm c$ because $x_0'$ is not in the objective function. To $A$, we add 
 a column which is zero everywhere except in row corresponding to
 this inequality. In the basic feasible solution, we can set 
-$x_0' = b_0$.
+$x_0=0$ and $x_0' = b_0$.
 
 Greater than inequalities are more complicated. Applying the same logic 
 as less-then constraints, we can try
@@ -76,12 +79,12 @@ However, this has the problem of no BFS. We cannot blindly set $x_1=40$
 because this may invalid $\le$ constraints and we certainly
 can't set $x_1'$ to a negative value. The solution is to add another 
 variable, called an artificial variable, and penalise it in the objective 
-coefficient. That is, 
+function. That is, 
 \begin{align*}
-    x_1 - x_1' + x_1^* = 40
+    x_1 - x_1' + x_1^* = 40.
 \end{align*}
-We add $x_1^*$ to $\bm x$ and because we are maximising, 
-we add a coefficient $M \ll 0$ to $\bm z$. This will 
+We add $x_1'$ and $x_1^*$ to $\bm x$ and because we are maximising, 
+we add a coefficient $M \ll 0$ to $\bm c$. This will 
 ensure $x_1^*$ is zero in the optimal solution. Then, our BFS contains 
 $x_1 = x_1' = 0$ and $x_1^* = 40$.
 
@@ -198,7 +201,7 @@ Let $\bm e^j$ be a vector with 1 in the $j$-th position and 0 elsewhere.
          where this solution remains optimal.
     \end{itemize}
 \end{itemize}
-Note that these are only valid for changing one constraint or one objective 
+Note that these are only valid for changing one constraint or  objective 
 coefficient at a time.
 
 \subsection{Gurobi}
@@ -208,7 +211,7 @@ Gurobi computes these for us, under the following attributes.
     is $y_j$, `con.Slack' is the value of its slack variable, and
     `con.SARHSLow' and `con.SARHSUp' are the bounds on $\Delta$.
     \item For the $j$-th variable `var', `var.RC' is the reduced cost $c_j'$,
-    and `var.SAObjLow' and `var.SAObjUp' are bounds on $\Delta$.
+    and the attributes `var.SAObjLow' and `var.SAObjUp' are bounds on $\Delta$.
 \end{itemize}
 
 
