@@ -2,16 +2,19 @@
 
 \usepackage{amsmath}
 \usepackage{bm}
+\usepackage{listings}
+
+
 \title{Revised Simplex Algorithm}
 \author{Kenton Lam}
 
 \begin{document}
 \maketitle
 
-The revised simplex algorithm is fundamental to understanding 
-linear programming but is also extremely difficult to understand.
+The revised simplex algorithm is fundamental to 
+linear programming but can be complicated at first glance.
 I've formulated it here as plainly and logically as possible 
-to help myself and hopefully others.
+to help myself and (hopefully) others.
 
 
 \section{Problem Definition}
@@ -152,6 +155,7 @@ We begin with the BFS as our solution.
 
 \end{enumerate}
 
+\newpage
 \section{Sensitivity Analysis}
 Once we have an optimal solution $\bm x$, its dual variables $\bm y$ can give us insights 
 into the solution. Specifically, we can calculate the effect of small 
@@ -160,18 +164,53 @@ changes to the constraint RHS $\bm b$ and the objective coefficients $\bm c$.
 Let $\bm e^j$ be a vector with 1 in the $j$-th position and 0 elsewhere. 
 
 \begin{itemize}
-    \item If we perturb $\bm b$ by $\bm b + \Delta \bm e^j$ for some $\Delta > 0$, 
-    the new objective value is given by 
+    \item We perturb $\bm b$ by $\bm b + \Delta \bm e^j$ by some amount $\Delta$.
+    This changes the $j$-th constraint's RHS.
+    The new objective value is given by 
     \begin{align*}
         z^\Delta = \bm y^\top (\bm b + \Delta \bm e^j) &= \bm y^\top \bm b + \bm y^\top \Delta \bm e^j \\ 
         &= z^B + \Delta y_j \quad \text{($\bm y^\top \bm b = z^B$ by duality)}
     \end{align*}
-    \item Consider a perturbation $\bm c$ to $\bm c + \Delta \bm e^j$. The optimal solution's basis variables will be unchanged until
+    This is valid subject to
+    \begin{align*}
+        \bm x^{B\Delta} = B^{-1}(\bm b + \Delta \bm e^j) = \bm y + \Delta (B^{-1})^\top \bm e^j \ge \bm 0.
+    \end{align*}
+    In other words, for this $\Delta$, 
+    each variable in the basis must remain non-negative.
+
+    \item Consider a perturbation of $\bm c + \Delta \bm e^j$ to $\bm c$, 
+    changing the $j$-th variable's objective coefficient. 
+    The optimal solution remains optimal if the following conditions hold.
     \begin{itemize}
-        \item for some non-basis $j$, $c_j' = c_j - \bm y^\top \bm \rho_j$ becomes positive; or
-        \item for some basis variable $j$ \textbf{UNFINISHED}
+        \item If $j$ is a non-basis variable, the reduced cost, 
+        \begin{align*}
+            c_j' = (c_j+\Delta) - \bm y^\top \bm \rho_j
+        \end{align*} 
+        needs to remain non-positive.
+        This tells us how much each objective coefficient needs to change before its 
+        variable enters the optimum basis.
+        \item If $j$ is a basis variable, we need
+        \begin{align*}
+            \bm y^\Delta &= B^{-1}(\bm c^B + \Delta \bm e^j) = \bm y+\Delta (B^{-1})^\top \bm e^j \ge \bm 0.
+        \end{align*}
+        That is, the new dual variables need to be non-negative. 
+        With this, we can compute an interval for $\Delta$ 
+         where this solution remains optimal.
     \end{itemize}
 \end{itemize}
+Note that these are only valid for changing one constraint or one objective 
+coefficient at a time.
+
+\subsection{Gurobi}
+Gurobi computes these for us, under the following attributes.
+\begin{itemize}
+    \item For the $j$-th constraint `con', `con.Pi' 
+    is $y_j$, `con.Slack' is the value of its slack variable, and
+    `con.SARHSLow' and `con.SARHSUp' are the bounds on $\Delta$.
+    \item For the $j$-th variable `var', `var.RC' is the reduced cost $c_j'$,
+    and `var.SAObjLow' and `var.SAObjUp' are bounds on $\Delta$.
+\end{itemize}
+
 
 
 \end{document}
