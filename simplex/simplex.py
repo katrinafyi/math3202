@@ -197,7 +197,7 @@ def manual_test():
     b = [55, 26, 30, 57]
     basic = [0, 1, 3, 5]
     non_basic = [2, 4, 6]
-    do_optimise(c, A, b, 3, basic, non_basic)
+    do_optimise(c, A, b, None, basic, non_basic)
 
 if __name__ == "__main__":
     manual_test()
