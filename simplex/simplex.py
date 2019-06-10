@@ -22,19 +22,19 @@ def iterate(basic: List[int], non_basic: List[int],
 
         # basic feasible solution
         x_B = B_inv * b
-        print('x_B', x_B)
+        print('x_B', list(x_B))
 
         # cost coefficients of variables in the basis
         c_B = sp.Matrix([c[b] for b in basic])
-        print('c_B', c_B)
+        print('c_B', list(c_B))
 
         # objective function value
         z_B = c_B.dot(x_B)
-        print('z_B', z_B)
+        print('z_B', (z_B))
 
         # compute dual variables
         y = (B_inv).T * c_B
-        print('y', y)
+        print('y', list(y))
 
         # iterate over non-basic variables to select one to enter
         feasible_entering_vars = []
@@ -47,7 +47,7 @@ def iterate(basic: List[int], non_basic: List[int],
 
         if not feasible_entering_vars:
             # no further optimisation possible
-            return Solution(x_B, z_B)
+            return Solution(dict(zip(basic, x_B)), z_B)
 
         print('c_j\', j_*', feasible_entering_vars)
         # entering variable with index j
@@ -73,11 +73,13 @@ def iterate(basic: List[int], non_basic: List[int],
 
         # add j to basic variables.
         basic.append(j)
+        basic.sort()
         non_basic.remove(j)
 
     assert False
 
-def do_optimise(c: sp.Matrix, A: sp.Matrix, b: sp.Matrix, num_vars: int):
+def do_optimise(c: sp.Matrix, A: sp.Matrix, b: sp.Matrix, num_vars: int,
+        basic=None, non_basic=None):
     # number of decision variables
     n = num_vars
 
@@ -88,11 +90,17 @@ def do_optimise(c: sp.Matrix, A: sp.Matrix, b: sp.Matrix, num_vars: int):
     augmented.rref()
 
     # starting basic variables as slack/surplus variables
-    basic = list(range(n, A.shape[1]))
-    non_basic = list(range(n))
+    if not basic:
+        basic = list(range(n, A.shape[1]))
+    if not non_basic:
+        non_basic = list(range(n))
     print(list(basic), list(non_basic))
 
-    print(iterate(basic, non_basic, c, A, b))
+    x, z = iterate(basic, non_basic, c, A, b)
+    print()
+    print('SOLUTION:')
+    print('x', x)
+    print('z', z)
 
 EQ = object()
 LE = object()
@@ -178,5 +186,18 @@ def tutorial_2():
     s.set_objective([40, 30, 20, 40, 35])
     s.maximise()
 
+def manual_test():
+    c = [20, 10, 15, 0, 0, 0, 0]
+    A = [
+        [3, 2, 5, 1, 0, 0, 0],
+        [2, 1, 1, 0, 1, 0, 0],
+        [1, 1, 3, 0, 0, 1, 0],
+        [5, 2, 4, 0, 0, 0, 1]
+    ]
+    b = [55, 26, 30, 57]
+    basic = [0, 1, 3, 5]
+    non_basic = [2, 4, 6]
+    do_optimise(c, A, b, 3, basic, non_basic)
+
 if __name__ == "__main__":
-    tutorial_2()
+    manual_test()
