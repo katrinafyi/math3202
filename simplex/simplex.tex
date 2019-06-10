@@ -130,7 +130,7 @@ We begin with the BFS as our solution.
     Note that the objective value of this solution is given by $z^B = \bm c^B \cdot \bm x^B$.
     \item Compute the \textit{dual variables} as 
     \begin{align*}
-        \bm y &= (B^{-1})^\top \bm c^B.
+        \bm y &= (B^{-1})^\top \bm c^B ~\text{ or }~ \bm y^\top = (\bm c^B)^\top B^{-1}.
     \end{align*}
     \item We need to choose which variable which enter the basis. 
     For each $j$ not in the basis, let $\bm\rho_j$ denote its corresponding 
