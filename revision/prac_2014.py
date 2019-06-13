@@ -26,39 +26,39 @@ def word_game():
     m = Model('Word Game')
 
     # number of each letter used in each word
-    X = m.addVars(Words, Letters, name='X', vtype=GRB.INTEGER)
+    X = tupledict()
+    for w in Words:
+        for i, l in enumerate(w):
+            X[w,i,l] = m.addVar(name=f'X[{w},{i},{l}', vtype=GRB.BINARY)
+            X[w,i,'_'] = m.addVar(name=f'X[{w},{i},_', vtype=GRB.BINARY)
     Y = m.addVars(Words, name='Y', vtype=GRB.BINARY, obj=Scores)
     m.setAttr(GRB.Attr.ModelSense, GRB.MAXIMIZE)
 
-    m.addConstrs( 
-        X[w,l] <= n
+    m.addConstrs(
+        Y[w] <= X.sum(w, i, '*')
         for w in Words
-        for l, n in letter_counts(w).items()
+        for i in range(len(w))
     )
 
     m.addConstrs(
-        len(w)*Y[w] <= X.sum(w, '*')
-        for w in Words
-    )
-
-    m.addConstrs(
-        X.sum('*', l) <= n for l, n in NumTiles.items()
+        X.sum('*', '*', l) <= n for l, n in NumTiles.items()
     )
 
     m.optimize()
 
     for l in Letters:
-        print(l, X.sum('*', l).getValue())
+        print(l, X.sum('*', '*', l).getValue())
 
     for w in Words:
         if not Y[w].x: continue 
         print(w, Scores[w], end=': ')
         seen = set()
-        for l in w + '_':
-            if l in seen: continue 
+        for i, l in enumerate(w):
+            if l in seen: continue
             seen.add(l)
-            if not X[w,l].x: continue
-            print(l, round(X[w,l].x), end=', ')
+            print(l, round(X[w,i,l].x), end=', ')
+            if X[w,i,'_'].x:
+                print(f'({l})', round(X[w,i,'_'].x), end=', ')
         print()
 
 
