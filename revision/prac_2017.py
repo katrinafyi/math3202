@@ -1,6 +1,7 @@
-from gurobipy import *
+from functools import lru_cache
 
 def rocket():
+    from gurobipy import Model, GRB
     # Set up data
     Mass = [70, 90, 100, 110, 120, 130, 150, 180, 210, 220, 250, 280, 340, 350, 400]
     P = range(len(Mass))
@@ -24,5 +25,33 @@ def rocket():
     m.setAttr(GRB.Attr.ModelSense, GRB.MAXIMIZE)
     m.optimize()
 
+def multiplication_cards():
+    CARDS = frozenset(range(10))
+    BOXES = range(4)
+
+    @lru_cache(None)
+    def V(boxes, cards, trace=False):
+        if all(b is not None for b in boxes):
+            x = boxes
+            return ((10*x[0]+x[1])*(10*x[2]+x[3]), None)
+        p = 1/len(cards)
+        s = 0
+        if trace: moves = {}
+        # print(cards)
+        for c in cards:
+            v, i = min(
+                (V(boxes[:i]+(c,)+boxes[i+1:], cards-{c} )[0], i)
+                for i, a in enumerate(boxes) if a is None
+            )
+            if trace: moves[c] = i
+            s += p * v
+        return (s, moves if trace else None)
+    
+    print(V((None, )*4, (CARDS), 1))
+    #print(V(2, (None, None, 4, 2), frozenset(CARDS)))
+    print(V((0, None, None, None), (CARDS)-{0}))
+    print(V.cache_info())
+
+
 if __name__ == "__main__":
-    rocket()
+    multiplication_cards()
