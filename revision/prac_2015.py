@@ -13,7 +13,7 @@ def optimal_hiring():
             (200*(s-n)**2 
                 + 2000*(s-REQUIRED[t]) 
                 + V(t+1, s)[0], 
-            (s, ) + V(t+1, s)[1])
+            (s-n, ) + V(t+1, s)[1])
             for s in range(REQUIRED[t], 155+1)
         )
     
