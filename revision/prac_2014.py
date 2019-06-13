@@ -52,13 +52,11 @@ def word_game():
     for w in Words:
         if not Y[w].x: continue 
         print(w, Scores[w], end=': ')
-        seen = set()
         for i, l in enumerate(w):
-            if l in seen: continue
-            seen.add(l)
-            print(l, round(X[w,i,l].x), end=', ')
-            if X[w,i,'_'].x:
-                print(f'({l})', round(X[w,i,'_'].x), end=', ')
+            if X[w,i,l].x:
+                print(l, end=' ')
+            else:
+                print(f'({l})', end=' ')
         print()
 
 

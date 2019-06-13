@@ -7,25 +7,25 @@ Coefficient statistics:
   Bounds range     [1e+00, 1e+00]
   RHS range        [2e+01, 5e+01]
 Found heuristic solution: objective -0.0000000
-Presolve time: 0.49s
+Presolve time: 0.30s
 Presolved: 28716 rows, 61709 columns, 143445 nonzeros
 Variable types: 0 continuous, 61709 integer (61709 binary)
 
 Root simplex log...
 
 Iteration    Objective       Primal Inf.    Dual Inf.      Time
-   27886    2.9859967e+03   4.390000e+02   0.000000e+00      5s
-   29162    2.9839412e+03   0.000000e+00   0.000000e+00      7s
+   28776    2.9841505e+03   3.938462e+01   0.000000e+00      5s
+   29162    2.9839412e+03   0.000000e+00   0.000000e+00      6s
 
-Root relaxation: objective 2.983941e+03, 29162 iterations, 6.38 seconds
+Root relaxation: objective 2.983941e+03, 29162 iterations, 5.42 seconds
 
     Nodes    |    Current Node    |     Objective Bounds      |     Work
  Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
 
-     0     0 2983.94118    0   56   -0.00000 2983.94118      -     -    7s
-H    0     0                    2983.0000000 2983.94118  0.03%     -    7s
+     0     0 2983.94118    0   56   -0.00000 2983.94118      -     -    5s
+H    0     0                    2983.0000000 2983.94118  0.03%     -    6s
 
-Explored 1 nodes (33121 simplex iterations) in 7.17 seconds
+Explored 1 nodes (33121 simplex iterations) in 6.03 seconds
 Thread count was 4 (of 4 available processors)
 
 Solution count 2: 2983 -0 
@@ -59,251 +59,251 @@ x 7.0
 y 37.0
 z 2.0
 _ 50.0
-the 17: t 1, h 1, e 1, 
-be 17: b 1, e 1, 
-and 17: a 1, n 1, d 1, 
-of 17: o 1, f 1, 
-a 17: a 1, 
-in 16: i 1, n 1, 
-to 17: t 1, o 1, 
-have 16: h 1, a 1, v 1, e 1, 
-it 16: i 1, t 1, 
-i 16: i 1, 
-for 16: f 1, o 1, r 1, 
-you 15: y 1, o 1, u 1, 
-he 15: h 1, e 1, 
-with 15: w 1, i 1, t 1, h 1, 
-on 15: o 1, n 1, 
-do 15: d 1, o 1, 
-say 15: s 1, a 0, (a) 1, y 1, 
-they 15: t 1, h 1, e 1, y 1, 
-at 15: a 0, (a) 1, t 1, 
-but 15: b 1, u 1, t 1, 
-we 15: w 1, e 1, 
-his 15: h 1, i 1, s 1, 
-from 15: f 1, r 1, o 1, m 1, 
-not 15: n 1, o 1, t 1, 
-by 15: b 1, y 1, 
-she 15: s 1, h 1, e 1, 
-or 15: o 1, r 1, 
-as 15: a 0, (a) 1, s 1, 
-go 14: g 1, o 1, 
-can 14: c 1, a 0, (a) 1, n 1, 
-who 14: w 1, h 1, o 1, 
-get 14: g 1, e 1, t 1, 
-if 14: i 1, f 1, 
-her 15: h 1, e 1, r 1, 
-all 14: a 0, (a) 1, l 1, 
-my 14: m 1, y 1, 
-know 14: k 1, n 1, o 1, w 1, 
-will 14: w 1, i 1, l 1, 
-up 14: u 1, p 1, 
-so 14: s 1, o 1, 
-when 14: w 1, h 1, e 1, n 1, 
-which 14: w 1, h 1, i 1, c 1, 
-me 14: m 1, e 1, 
-just 14: j 1, u 1, s 1, t 1, 
-him 14: h 1, i 1, m 1, 
-now 14: n 1, o 1, w 1, 
-how 14: h 1, o 1, w 1, 
-its 14: i 1, t 1, s 1, 
-our 14: o 1, u 1, r 1, 
-two 14: t 1, w 1, o 1, 
-want 14: w 1, a 1, n 1, t 1, 
-way 14: w 1, a 0, (a) 1, y 1, 
-new 13: n 1, e 1, w 1, 
-day 13: d 1, a 1, y 1, 
-use 14: u 1, s 1, e 1, 
-no 14: n 1, o 1, 
-man 13: m 1, a 0, (a) 1, n 1, 
-find 13: f 1, i 1, n 1, d 1, 
-give 13: g 1, i 1, v 1, e 1, 
-well 14: w 1, e 1, l 1, 
-only 14: o 1, n 1, l 1, y 1, 
-very 13: v 1, e 0, (e) 1, r 1, y 1, 
-back 14: b 1, a 1, c 1, k 1, 
-any 13: a 1, n 1, y 1, 
-us 13: u 1, s 1, 
-work 14: w 1, o 1, r 1, k 1, 
-down 13: d 1, o 1, w 1, n 1, 
-may 13: m 1, a 1, y 1, 
-call 13: c 1, a 0, (a) 1, l 1, 
-try 13: t 1, r 1, y 1, 
-ask 13: a 0, (a) 1, s 1, k 1, 
-high 13: h 1, i 1, g 1, 
-much 13: m 1, u 1, c 1, h 1, 
-own 13: o 1, w 1, n 1, 
-put 13: p 1, u 1, t 1, 
-old 13: o 1, l 1, d 1, 
-why 13: w 1, h 1, y 1, 
-big 13: b 1, i 1, g 1, 
-help 13: h 1, e 1, l 1, p 1, 
-show 13: s 1, h 1, o 1, w 1, 
-such 13: s 1, u 1, c 1, h 1, 
-few 13: f 1, e 1, w 1, 
-play 13: p 1, l 1, a 1, y 1, 
-run 13: r 1, u 1, n 1, 
-off 13: o 1, f 1, 
-mr 13: m 1, r 1, 
-bring 13: b 1, r 1, i 1, n 1, g 1, 
-next 13: n 1, e 1, x 1, t 1, 
-fact 13: f 1, a 0, (a) 1, c 1, t 1, 
-job 12: j 1, o 1, b 1, 
-kind 13: k 1, i 1, n 1, d 1, 
-far 13: f 1, a 1, r 1, 
-black 13: b 1, l 1, a 1, c 1, k 1, 
-long 13: l 1, o 1, n 1, g 1, 
-yes 12: y 1, e 1, s 1, 
-end 13: e 1, n 1, d 1, 
-bad 12: b 1, a 1, d 1, 
-pay 12: p 1, a 1, y 1, 
-law 12: l 1, a 1, w 1, 
-car 12: c 1, a 0, (a) 1, r 1, 
-kid 12: k 1, i 1, d 1, 
-body 12: b 1, o 1, d 1, y 1, 
-face 13: f 1, a 1, c 1, e 1, 
-add 12: a 1, d 1, 
-war 12: w 1, a 1, r 1, 
-grow 12: g 1, r 1, o 1, w 1, 
-low 12: l 1, o 1, w 1, 
-win 12: w 1, i 1, n 1, 
-girl 12: g 1, i 1, r 1, l 1, 
-guy 12: g 1, u 1, y 1, 
-boy 12: b 1, o 1, y 1, 
-buy 12: b 1, u 1, y 1, 
-fall 12: f 1, a 1, l 1, 
-oh 12: o 1, h 1, 
-plan 12: p 1, l 1, a 1, n 1, 
-cut 12: c 1, u 1, t 1, 
-six 12: s 1, i 1, x 1, 
-drug 12: d 1, r 1, u 1, g 1, 
-pull 12: p 1, u 1, l 1, 
-son 12: s 1, o 1, n 1, 
-full 12: f 1, u 1, l 1, 
-tax 12: t 1, a 0, (a) 1, x 1, 
-pick 12: p 1, i 1, c 1, k 1, 
-form 12: f 1, o 0, (o) 1, r 1, m 1, 
-half 12: h 1, a 1, l 1, f 1, 
-baby 12: b 1, a 0, (a) 1, y 1, 
-film 12: f 1, i 1, l 1, m 1, 
-red 12: r 1, e 1, d 1, 
-bank 11: b 1, a 0, (a) 1, n 1, k 1, 
-per 11: p 1, e 0, (e) 1, r 1, 
-top 12: t 1, o 1, p 1, 
-bed 12: b 1, e 1, d 1, 
-dog 11: d 1, o 1, g 1, 
-fund 12: f 1, u 1, n 1, d 1, 
-sign 12: s 1, i 1, g 1, n 1, 
-cup 11: c 1, u 1, p 1, 
-box 11: b 1, o 1, x 1, 
-tv 11: t 1, v 1, 
-sex 11: s 1, e 0, (e) 1, x 1, 
-pm 11: p 1, m 1, 
-ok 12: o 0, (o) 1, k 1, 
-act 12: a 0, (a) 1, c 1, t 1, 
-gun 11: g 1, u 1, n 1, 
-check 12: c 1, h 1, e 1, k 1, 
-leg 11: l 1, e 1, g 1, 
-rock 11: r 1, o 0, (o) 1, c 1, k 1, 
-fly 11: f 1, l 1, y 1, 
-bit 12: b 1, i 1, t 1, 
-bar 11: b 1, a 1, r 1, 
-bag 11: b 1, a 1, g 1, 
-gas 11: g 1, a 1, s 1, 
-mrs 11: m 1, r 1, s 1, 
-nor 11: n 1, o 0, (o) 1, r 1, 
-key 12: k 1, e 1, y 1, 
-sky 11: s 1, k 1, y 1, 
-camp 11: c 1, a 1, m 1, p 1, 
-am 11: a 0, (a) 1, m 1, 
-fan 11: f 1, a 0, (a) 1, n 1, 
-sun 11: s 1, u 1, n 1, 
-club 11: c 1, l 1, u 1, b 1, 
-ms 11: m 1, s 1, 
-jump 11: j 1, u 1, m 1, p 1, 
-fit 11: f 1, i 1, t 1, 
-cry 11: c 1, r 1, y 1, 
-egg 11: e 1, g 1, 
-gift 11: g 1, i 1, f 1, t 1, 
-blow 11: b 1, l 1, o 0, (o) 1, w 1, 
-burn 11: b 1, u 1, r 1, n 1, 
-hey 11: h 1, e 0, (e) 1, y 1, 
-bus 11: b 1, u 1, s 1, 
-grab 11: g 1, r 1, a 0, (a) 1, b 1, 
-neck 11: n 1, e 0, (e) 1, c 1, k 1, 
-map 11: m 1, a 0, (a) 1, p 1, 
-nod 11: n 1, o 0, (o) 1, d 1, 
-dry 11: d 1, r 1, y 1, 
-fat 11: f 1, a 0, (a) 1, t 1, 
-lip 11: l 1, i 1, p 1, 
-jury 11: j 1, u 1, r 1, y 1, 
-ring 11: r 1, i 1, n 1, g 1, 
-ad 10: a 0, (a) 1, d 1, 
-mix 11: m 1, i 1, x 1, 
-funny 10: f 1, u 1, n 1, y 1, 
-golf 10: g 1, o 1, l 1, f 1, 
-kick 10: k 1, i 1, c 1, 
-row 10: r 1, o 1, w 1, 
-fix 10: f 1, i 1, x 1, 
-fun 11: f 1, u 1, n 1, 
-wing 10: w 1, i 1, n 1, g 1, 
-copy 11: c 1, o 1, p 1, y 1, 
-flow 11: f 1, l 1, o 1, w 1, 
-jew 10: j 1, e 1, w 1, 
-gay 10: g 1, a 0, (a) 1, y 1, 
-hi 10: h 1, i 1, 
-gap 10: g 1, a 0, (a) 1, p 1, 
-chip 10: c 1, h 1, i 1, p 1, 
-cop 10: c 1, o 1, p 1, 
-pack 11: p 1, a 0, (a) 1, c 1, k 1, 
-vs 10: v 1, s 1, 
-cap 10: c 1, a 0, (a) 1, p 1, 
-luck 10: l 1, u 1, c 1, k 1, 
-bury 10: b 1, u 1, r 1, y 1, 
-flag 10: f 1, l 1, a 0, (a) 1, g 1, 
-dig 10: d 1, i 1, g 1, 
-pan 10: p 1, a 1, n 1, 
-buck 10: b 1, u 1, c 1, k 1, 
-pop 10: p 1, o 0, (o) 1, 
-hip 10: h 1, i 1, p 1, 
-gang 10: g 1, a 0, (a) 1, n 1, 
-bunch 10: b 1, u 1, n 1, c 1, h 1, 
-raw 10: r 1, a 0, (a) 1, w 1, 
-joy 10: j 1, o 1, y 1, 
-rub 10: r 1, u 1, b 1, 
-pc 10: p 1, c 1, 
-cow 10: c 1, o 0, (o) 1, w 1, 
-chef 10: c 1, h 1, e 1, f 1, 
-god 10: g 1, o 1, d 1, 
-lung 10: l 1, u 1, n 1, g 1, 
-ah 10: a 1, h 1, 
-ban 10: b 1, a 0, (a) 1, n 1, 
-log 10: l 1, o 1, g 1, 
-pump 10: p 1, u 1, m 1, 
-beg 10: b 1, e 1, g 1, 
-pig 10: p 1, i 1, g 1, 
-duck 10: d 1, u 1, c 1, k 1, 
-van 10: v 1, a 0, (a) 1, n 1, 
-bay 10: b 1, a 0, (a) 1, y 1, 
-rip 10: r 1, i 1, p 1, 
-pen 10: p 1, e 0, (e) 1, n 1, 
-suck 10: s 1, u 1, c 1, k 1, 
-re 10: r 1, e 0, (e) 1, 
-wow 9: w 1, o 0, (o) 1, 
-jazz 9: j 1, a 1, z 1, 
-hug 9: h 1, u 1, g 1, 
-gym 9: g 1, y 1, m 1, 
-jaw 9: j 1, a 0, (a) 1, w 1, 
-bow 10: b 1, o 1, w 1, 
-bug 9: b 1, u 1, g 1, 
-cab 9: c 1, a 0, (a) 1, b 1, 
-web 9: w 1, e 1, b 1, 
-cliff 9: c 1, l 1, i 1, f 1, 
-pin 9: p 1, i 1, n 1, 
-shy 9: s 1, h 1, y 1, 
-uh 9: u 1, h 1, 
-fur 9: f 1, u 1, r 1, 
-ha 9: h 1, a 0, (a) 1, 
-spy 9: s 1, p 1, y 1, 
-bulb 9: b 1, u 1, l 1, 
-fog 9: f 1, o 1, g 1, 
+the 17: t h e 
+be 17: b e 
+and 17: a n d 
+of 17: o f 
+a 17: a 
+in 16: i n 
+to 17: t o 
+have 16: h a v e 
+it 16: i t 
+i 16: i 
+for 16: f o r 
+you 15: y o u 
+he 15: h e 
+with 15: w i t h 
+on 15: o n 
+do 15: d o 
+say 15: s (a) y 
+they 15: t h e y 
+at 15: (a) t 
+but 15: b u t 
+we 15: w e 
+his 15: h i s 
+from 15: f r o m 
+not 15: n o t 
+by 15: b y 
+she 15: s h e 
+or 15: o r 
+as 15: (a) s 
+go 14: g o 
+can 14: c (a) n 
+who 14: w h o 
+get 14: g e t 
+if 14: i f 
+her 15: h e r 
+all 14: (a) l l 
+my 14: m y 
+know 14: k n o w 
+will 14: w i l l 
+up 14: u p 
+so 14: s o 
+when 14: w h e n 
+which 14: w h i c h 
+me 14: m e 
+just 14: j u s t 
+him 14: h i m 
+now 14: n o w 
+how 14: h o w 
+its 14: i t s 
+our 14: o u r 
+two 14: t w o 
+want 14: w a n t 
+way 14: w (a) y 
+new 13: n e w 
+day 13: d a y 
+use 14: u s e 
+no 14: n o 
+man 13: m (a) n 
+find 13: f i n d 
+give 13: g i v e 
+well 14: w e l l 
+only 14: o n l y 
+very 13: v (e) r y 
+back 14: b a c k 
+any 13: a n y 
+us 13: u s 
+work 14: w o r k 
+down 13: d o w n 
+may 13: m a y 
+call 13: c (a) l l 
+try 13: t r y 
+ask 13: (a) s k 
+high 13: h i g h 
+much 13: m u c h 
+own 13: o w n 
+put 13: p u t 
+old 13: o l d 
+why 13: w h y 
+big 13: b i g 
+help 13: h e l p 
+show 13: s h o w 
+such 13: s u c h 
+few 13: f e w 
+play 13: p l a y 
+run 13: r u n 
+off 13: o f f 
+mr 13: m r 
+bring 13: b r i n g 
+next 13: n e x t 
+fact 13: f (a) c t 
+job 12: j o b 
+kind 13: k i n d 
+far 13: f a r 
+black 13: b l a c k 
+long 13: l o n g 
+yes 12: y e s 
+end 13: e n d 
+bad 12: b a d 
+pay 12: p a y 
+law 12: l a w 
+car 12: c (a) r 
+kid 12: k i d 
+body 12: b o d y 
+face 13: f a c e 
+add 12: a d d 
+war 12: w a r 
+grow 12: g r o w 
+low 12: l o w 
+win 12: w i n 
+girl 12: g i r l 
+guy 12: g u y 
+boy 12: b o y 
+buy 12: b u y 
+fall 12: f a l l 
+oh 12: o h 
+plan 12: p l a n 
+cut 12: c u t 
+six 12: s i x 
+drug 12: d r u g 
+pull 12: p u l l 
+son 12: s o n 
+full 12: f u l l 
+tax 12: t (a) x 
+pick 12: p i c k 
+form 12: f (o) r m 
+half 12: h a l f 
+baby 12: b (a) b y 
+film 12: f i l m 
+red 12: r e d 
+bank 11: b (a) n k 
+per 11: p (e) r 
+top 12: t o p 
+bed 12: b e d 
+dog 11: d o g 
+fund 12: f u n d 
+sign 12: s i g n 
+cup 11: c u p 
+box 11: b o x 
+tv 11: t v 
+sex 11: s (e) x 
+pm 11: p m 
+ok 12: (o) k 
+act 12: (a) c t 
+gun 11: g u n 
+check 12: c h e c k 
+leg 11: l e g 
+rock 11: r (o) c k 
+fly 11: f l y 
+bit 12: b i t 
+bar 11: b a r 
+bag 11: b a g 
+gas 11: g a s 
+mrs 11: m r s 
+nor 11: n (o) r 
+key 12: k e y 
+sky 11: s k y 
+camp 11: c a m p 
+am 11: (a) m 
+fan 11: f (a) n 
+sun 11: s u n 
+club 11: c l u b 
+ms 11: m s 
+jump 11: j u m p 
+fit 11: f i t 
+cry 11: c r y 
+egg 11: e g g 
+gift 11: g i f t 
+blow 11: b l (o) w 
+burn 11: b u r n 
+hey 11: h (e) y 
+bus 11: b u s 
+grab 11: g r (a) b 
+neck 11: n (e) c k 
+map 11: m (a) p 
+nod 11: n (o) d 
+dry 11: d r y 
+fat 11: f (a) t 
+lip 11: l i p 
+jury 11: j u r y 
+ring 11: r i n g 
+ad 10: (a) d 
+mix 11: m i x 
+funny 10: f u n n y 
+golf 10: g o l f 
+kick 10: k i c k 
+row 10: r o w 
+fix 10: f i x 
+fun 11: f u n 
+wing 10: w i n g 
+copy 11: c o p y 
+flow 11: f l o w 
+jew 10: j e w 
+gay 10: g (a) y 
+hi 10: h i 
+gap 10: g (a) p 
+chip 10: c h i p 
+cop 10: c o p 
+pack 11: p (a) c k 
+vs 10: v s 
+cap 10: c (a) p 
+luck 10: l u c k 
+bury 10: b u r y 
+flag 10: f l (a) g 
+dig 10: d i g 
+pan 10: p a n 
+buck 10: b u c k 
+pop 10: p (o) p 
+hip 10: h i p 
+gang 10: g (a) n g 
+bunch 10: b u n c h 
+raw 10: r (a) w 
+joy 10: j o y 
+rub 10: r u b 
+pc 10: p c 
+cow 10: c (o) w 
+chef 10: c h e f 
+god 10: g o d 
+lung 10: l u n g 
+ah 10: a h 
+ban 10: b (a) n 
+log 10: l o g 
+pump 10: p u m p 
+beg 10: b e g 
+pig 10: p i g 
+duck 10: d u c k 
+van 10: v (a) n 
+bay 10: b (a) y 
+rip 10: r i p 
+pen 10: p (e) n 
+suck 10: s u c k 
+re 10: r (e) 
+wow 9: w (o) w 
+jazz 9: j a z z 
+hug 9: h u g 
+gym 9: g y m 
+jaw 9: j (a) w 
+bow 10: b o w 
+bug 9: b u g 
+cab 9: c (a) b 
+web 9: w e b 
+cliff 9: c l i f f 
+pin 9: p i n 
+shy 9: s h y 
+uh 9: u h 
+fur 9: f u r 
+ha 9: h (a) 
+spy 9: s p y 
+bulb 9: b u l b 
+fog 9: f o g 
