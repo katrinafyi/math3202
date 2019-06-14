@@ -83,3 +83,4 @@ def shopkeeper():
 
 if __name__ == "__main__":
     word_game()
+    shopkeeper()

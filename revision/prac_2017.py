@@ -30,7 +30,7 @@ def multiplication_cards():
     BOXES = range(4)
 
     @lru_cache(None)
-    def V(boxes, cards, trace=False):
+    def V(boxes, cards, trace=False): 
         if all(b is not None for b in boxes):
             x = boxes
             return ((10*x[0]+x[1])*(10*x[2]+x[3]), None)
@@ -43,13 +43,14 @@ def multiplication_cards():
                 (V(boxes[:i]+(c,)+boxes[i+1:], cards-{c} )[0], i)
                 for i, a in enumerate(boxes) if a is None
             )
+            if trace:
+                print(c, i, v)
             if trace: moves[c] = i
             s += p * v
         return (s, moves if trace else None)
     
     print(V((None, )*4, (CARDS), 1))
     #print(V(2, (None, None, 4, 2), frozenset(CARDS)))
-    print(V((0, None, None, None), (CARDS)-{0}))
     print(V.cache_info())
 
 
